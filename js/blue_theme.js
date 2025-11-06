@@ -9,4 +9,5 @@ document.addEventListener("DOMContentLoaded", () => {
             overlay.style.display = "none";    // Hide the overlay after click
         });
     }
+
 });

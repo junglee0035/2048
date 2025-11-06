@@ -715,83 +715,180 @@ hr {
   float: right;
 }
 
+/* full-screen overlay */
 .theme-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
+  flex-direction: column;
+  /* stack heading + buttons vertically */
   justify-content: center;
+  /* center vertically on screen */
   align-items: center;
-  z-index: 99;
+  /* center horizontally on screen */
+  text-align: center;
+  gap: 1.25rem;
+  /* space between heading and buttons */
+  z-index: 9999;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
+/* centered heading */
 .choose-theme {
-  color: white;
-  justify-content: center;
-  padding-bottom: 20%;
-  font-size: 25px;
+  color: #ffffff;
+  font-size: clamp(1.25rem, 2.5vw, 2rem);
+  font-weight: 700;
+  margin: 0;
 }
 
+/* row of color buttons */
 .theme-color-buttons {
   display: flex;
-  gap: 15%;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  /* wraps neatly on smaller screens */
+  width: 100%;
 }
 
+/* individual button styling */
 .theme-button {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 110px;
+  padding: 10px 18px;
   border-radius: 8px;
-  padding: 12px 30px;
   text-decoration: none;
-  color: #f9f6f2;
-  font-weight: bold;
-  text-align: center;
+  color: #fff;
+  font-weight: 700;
   cursor: pointer;
-  transition: 0.2s ease;
+  font-size: 1rem;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
+/* hover animation */
+.theme-button:hover {
+  transform: translateY(-3px);
+  opacity: 0.95;
+}
+
+/* specific colors */
 .blue-theme-button {
-  background-color: blue;
+  background: #4da6ff;
 }
 
 .red-theme-button {
-  background-color: red;
+  background: #ff6b6b;
 }
 
 .purple-theme-button {
-  background-color: purple;
+  background: #a55cff;
 }
 
-/* optional hover effect */
-.theme-button:hover {
-  transform: scale(1.05);
-  opacity: 0.9;
+/* responsive tweaks */
+@media (max-width: 420px) {
+  .theme-button {
+    min-width: 90px;
+    padding: 8px 12px;
+    font-size: 0.95rem;
+  }
+
+  .theme-color-buttons {
+    gap: 0.6rem;
+  }
+
+  .choose-theme {
+    font-size: 1.1rem;
+  }
 }
 
-/* --- BLUE THEME --- */
+html.blue-theme,
 body.blue-theme {
-  background-color: #dceeff;
+  margin: 0;
+  padding: 0;
+  background: #dceeff;
+  height: 100%;
+  min-height: 100%;
+  box-sizing: border-box;
 }
+
+body.blue-theme .container {
+  padding: 80px 0;
+}
+
 
 body.blue-theme .game-container {
   background-color: #b3d9ff;
 }
 
-/* Make the tiles pastel blue shades */
 body.blue-theme .tile {
   background-color: #cce6ff;
   color: #1a2b44;
 }
 
-/* Optional: Customize the buttons to match */
 body.blue-theme .theme-button {
   background-color: #66b3ff;
   color: white;
 }
 
-/* Smooth transition */
+/* Blue theme tiles */
+body.blue-theme .tile.tile-4 .tile-inner {
+  background: #d9e9eb;
+  box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0), inset 0 0 0 1px rgba(255, 255, 255, 0);
+}
+
+
+body.blue-theme .tile.tile-8 .tile-inner {
+  background: #C2DFFF;
+  color: #1a2b44;
+}
+
+body.blue-theme .tile.tile-16 .tile-inner {
+  background: #99C7FF;
+  color: #1a2b44;
+}
+
+body.blue-theme .tile.tile-32 .tile-inner {
+  background: #70B8FF;
+  color: #ffffff;
+}
+
+body.blue-theme .tile.tile-64 .tile-inner {
+  background: #7CA2DE;
+  color: #ffffff;
+}
+
+body.blue-theme .tile.tile-128 .tile-inner {
+  background: #4785FF;
+  color: #ffffff;
+}
+
+body.blue-theme .tile.tile-256 .tile-inner {
+  background: #3280F5;
+  color: #ffffff;
+}
+
+body.blue-theme .tile.tile-512 .tile-inner {
+  background: #006CE0;
+  color: #ffffff;
+}
+
+body.blue-theme .tile.tile-1024 .tile-inner {
+  background: #0062F5;
+  color: #ffffff;
+}
+
+body.blue-theme .tile.tile-2048 .tile-inner {
+  background: #0059B8;
+  color: #ffffff;
+}
+
 body,
 .game-container,
 .tile,
