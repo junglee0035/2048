@@ -791,6 +791,30 @@ body.blue-theme .theme-button {
   color: white;
 }
 
+/* --- RED THEME --- */
+body.red-theme {
+  background-color: #ffe5e5; /* soft red background */
+}
+
+body.red-theme .game-container {
+  background-color: #ffb3b3; /* light red game board */
+}
+
+/* Make the tiles pastel red shades */
+body.red-theme .tile {
+  background-color: #ffd6d6;
+  color: #4a1a1a;
+}
+
+/* Optional: Customize buttons */
+body.red-theme .theme-button {
+  background-color: #ff6666;
+  color: white;
+}
+
+/* Smooth transition (already in your CSS, so this will animate nicely) */
+
+
 /* Smooth transition */
 body,
 .game-container,
