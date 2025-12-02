@@ -5,6 +5,8 @@ function GameManager(size, InputManager, Actuator, StorageManager) {
   this.actuator = new Actuator;
 
   this.startTiles = 2;
+  this.streak = 0;
+  this.maxStreak = 0;
 
   this.inputManager.on("move", this.move.bind(this));
   this.inputManager.on("restart", this.restart.bind(this));
@@ -17,6 +19,8 @@ function GameManager(size, InputManager, Actuator, StorageManager) {
 GameManager.prototype.restart = function () {
   this.storageManager.clearGameState();
   this.actuator.continueGame(); // Clear the game won/lost message
+  this.streak = 0;
+  this.maxStreak = 0;
   this.setup();
 
   // Reset the theme
@@ -56,12 +60,16 @@ GameManager.prototype.setup = function () {
     this.over = previousState.over;
     this.won = previousState.won;
     this.keepPlaying = previousState.keepPlaying;
+    this.streak = previousState.streak || 0;
+    this.maxStreak = previousState.maxStreak || 0;
   } else {
     this.grid = new Grid(this.size);
     this.score = 0;
     this.over = false;
     this.won = false;
     this.keepPlaying = false;
+    this.streak = 0;
+    this.maxStreak = 0;
 
     // Add the initial tiles
     this.addStartTiles();
@@ -106,7 +114,9 @@ GameManager.prototype.actuate = function () {
     over: this.over,
     won: this.won,
     bestScore: this.storageManager.getBestScore(),
-    terminated: this.isGameTerminated()
+    terminated: this.isGameTerminated(),
+    streak: this.streak,
+    maxStreak: this.maxStreak
   });
 
 };
@@ -118,7 +128,9 @@ GameManager.prototype.serialize = function () {
     score: this.score,
     over: this.over,
     won: this.won,
-    keepPlaying: this.keepPlaying
+    keepPlaying: this.keepPlaying,
+    streak: this.streak,
+    maxStreak: this.maxStreak
   };
 };
 
@@ -151,6 +163,7 @@ GameManager.prototype.move = function (direction) {
   var vector = this.getVector(direction);
   var traversals = this.buildTraversals(vector);
   var moved = false;
+  var mergedThisMove = false;
 
   // Save the current tile positions and remove merger information
   this.prepareTiles();
@@ -178,6 +191,9 @@ GameManager.prototype.move = function (direction) {
 
           // Update the score
           self.score += merged.value;
+          
+          // Track that a merge happened
+          mergedThisMove = true;
 
           // The mighty 2048 tile
           if (merged.value === 2048) self.won = true;
@@ -193,6 +209,16 @@ GameManager.prototype.move = function (direction) {
   });
 
   if (moved) {
+    // Update streak based on whether tiles merged
+    if (mergedThisMove) {
+      this.streak++;
+      if (this.streak > this.maxStreak) {
+        this.maxStreak = this.streak;
+      }
+    } else {
+      this.streak = 0;
+    }
+
     this.addRandomTile();
 
     if (!this.movesAvailable()) {

@@ -25,10 +25,14 @@ html, body {
   margin: 0;
   padding: 0;
 
-  background: #faf8ef;
   color: $text-color;
   font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
   font-size: 18px;
+}
+
+html:not(.blue-theme):not(.red-theme):not(.purple-theme),
+body:not(.blue-theme):not(.red-theme):not(.purple-theme) {
+  background: #faf8ef;
 }
 
 body {
@@ -64,7 +68,7 @@ h1.title {
   text-align: right;
 }
 
-.score-container, .best-container {
+.score-container, .best-container, .streak-container {
   $height: 25px;
 
   position: relative;
@@ -112,6 +116,68 @@ h1.title {
 
 .best-container:after {
   content: "Best";
+}
+
+.streak-container {
+  background: #8f7a66;
+  transition: all 0.3s ease;
+
+  &:after {
+    content: "Streak";
+  }
+
+  .streak-animation {
+    position: absolute;
+    top: 50%;
+    right: -45px;
+    transform: translateY(-50%);
+    font-size: 35px;
+    z-index: 101;
+    pointer-events: none;
+    @include animation(streak-fire 600ms ease-out);
+    @include animation-fill-mode(both);
+  }
+
+  &.streak-high {
+    background: #f67c5f;
+    box-shadow: 0 0 15px rgba(246, 124, 95, 0.4);
+  }
+
+  &.streak-epic {
+    background: #ff3333;
+    box-shadow: 0 0 25px rgba(255, 51, 51, 0.6);
+  }
+}
+
+@include keyframes(streak-fire) {
+  0% {
+    opacity: 0;
+    transform: translateY(-50%) scale(0.5);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-100%) scale(1.2);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-150%) scale(0.8);
+  }
+}
+
+@include keyframes(streak-pulse) {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.streak-container.streak-pulse {
+  @include animation(streak-pulse 600ms ease-in-out);
 }
 
 p {
@@ -472,6 +538,148 @@ hr {
   margin-top: 50px;
 }
 
+.theme-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  transition: opacity 0.3s ease;
+
+  .choose-theme {
+    color: white;
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+
+  .theme-color-buttons {
+    display: flex;
+    gap: 20px;
+  }
+
+  .theme-button {
+    @include button;
+    font-size: 20px;
+    padding: 15px 30px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+
+    &.blue-theme-button {
+      background: #4a90e2;
+    }
+
+    &.red-theme-button {
+      background: #e74c3c;
+    }
+
+    &.purple-theme-button {
+      background: #9b59b6;
+    }
+  }
+}
+
+// Blue Theme
+html.blue-theme,
+body.blue-theme {
+  background: #c5d9ed;
+}
+
+body.blue-theme {
+  .game-container {
+    background: #7fb3e8;
+  }
+  
+  .grid-cell {
+    background: rgba(161, 201, 234, 0.5);
+  }
+  
+  .tile {
+    &.tile-2 .tile-inner { background: #ffebcd; color: #2c5f8d; }
+    &.tile-4 .tile-inner { background: #ffd9a3; color: #2c5f8d; }
+    &.tile-8 .tile-inner { background: #4da6ff; color: $bright-text-color; }
+    &.tile-16 .tile-inner { background: #1a8cff; color: $bright-text-color; }
+    &.tile-32 .tile-inner { background: #0073e6; color: $bright-text-color; }
+    &.tile-64 .tile-inner { background: #0059b3; color: $bright-text-color; }
+    &.tile-128 .tile-inner { background: #004080; color: $bright-text-color; }
+    &.tile-256 .tile-inner { background: #00264d; color: $bright-text-color; }
+    &.tile-512 .tile-inner { background: #001a33; color: $bright-text-color; }
+    &.tile-1024 .tile-inner { background: #000d1a; color: $bright-text-color; }
+    &.tile-2048 .tile-inner { background: #000000; color: $bright-text-color; }
+  }
+}
+
+// Red Theme
+html.red-theme,
+body.red-theme {
+  background: #f5d5d5;
+}
+
+body.red-theme {
+  .game-container {
+    background: #e89393;
+  }
+  
+  .grid-cell {
+    background: rgba(237, 161, 161, 0.5);
+  }
+  
+  .tile {
+    &.tile-2 .tile-inner { background: #ffebcd; color: #8d2c2c; }
+    &.tile-4 .tile-inner { background: #ffd9a3; color: #8d2c2c; }
+    &.tile-8 .tile-inner { background: #ff6666; color: $bright-text-color; }
+    &.tile-16 .tile-inner { background: #ff3333; color: $bright-text-color; }
+    &.tile-32 .tile-inner { background: #ff0000; color: $bright-text-color; }
+    &.tile-64 .tile-inner { background: #cc0000; color: $bright-text-color; }
+    &.tile-128 .tile-inner { background: #990000; color: $bright-text-color; }
+    &.tile-256 .tile-inner { background: #660000; color: $bright-text-color; }
+    &.tile-512 .tile-inner { background: #4d0000; color: $bright-text-color; }
+    &.tile-1024 .tile-inner { background: #330000; color: $bright-text-color; }
+    &.tile-2048 .tile-inner { background: #1a0000; color: $bright-text-color; }
+  }
+}
+
+// Purple Theme
+html.purple-theme,
+body.purple-theme {
+  background: #e5d5f5;
+}
+
+body.purple-theme {
+  .game-container {
+    background: #b893e8;
+  }
+  
+  .grid-cell {
+    background: rgba(197, 161, 237, 0.5);
+  }
+  
+  .tile {
+    &.tile-2 .tile-inner { background: #ffebcd; color: #5f2c8d; }
+    &.tile-4 .tile-inner { background: #ffd9a3; color: #5f2c8d; }
+    &.tile-8 .tile-inner { background: #b366ff; color: $bright-text-color; }
+    &.tile-16 .tile-inner { background: #9933ff; color: $bright-text-color; }
+    &.tile-32 .tile-inner { background: #8000ff; color: $bright-text-color; }
+    &.tile-64 .tile-inner { background: #6600cc; color: $bright-text-color; }
+    &.tile-128 .tile-inner { background: #4d0099; color: $bright-text-color; }
+    &.tile-256 .tile-inner { background: #330066; color: $bright-text-color; }
+    &.tile-512 .tile-inner { background: #260050; color: $bright-text-color; }
+    &.tile-1024 .tile-inner { background: #1a0033; color: $bright-text-color; }
+    &.tile-2048 .tile-inner { background: #0d001a; color: $bright-text-color; }
+  }
+}
+
 @include smaller($mobile-threshold) {
   // Redefine variables for smaller screens
   $field-width: 280px;
@@ -500,7 +708,7 @@ hr {
     margin: 0 auto;
   }
 
-  .score-container, .best-container {
+  .score-container, .best-container, .streak-container {
     margin-top: 0;
     padding: 15px 10px;
     min-width: 40px;

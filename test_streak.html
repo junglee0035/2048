@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Streak Test - 2048</title>
+  <link href="style/main.css" rel="stylesheet" type="text/css">
+  <style>
+    body { padding: 50px; }
+    .test-controls {
+      margin: 20px 0;
+      padding: 20px;
+      background: #f0f0f0;
+      border-radius: 5px;
+    }
+    .test-button {
+      background: #8f7a66;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin: 5px;
+      border-radius: 3px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .test-button:hover {
+      background: #9f8a76;
+    }
+    .info {
+      margin: 10px 0;
+      padding: 10px;
+      background: #fff3cd;
+      border: 1px solid #ffc107;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="info">
+      <strong>Streak Test Page</strong><br>
+      Use the buttons below to simulate streak changes with dummy data.
+      The streak counter should animate and change color based on streak value.
+    </div>
+
+    <div class="heading">
+      <h1 class="title">2048</h1>
+      <div class="scores-container">
+        <div class="score-container">0</div>
+        <div class="best-container">0</div>
+        <div class="streak-container">0</div>
+      </div>
+    </div>
+
+    <div class="test-controls">
+      <h3>Streak Test Controls (Dummy Data)</h3>
+      <button class="test-button" onclick="incrementStreak()">Increment Streak (+1)</button>
+      <button class="test-button" onclick="resetStreak()">Reset Streak (0)</button>
+      <button class="test-button" onclick="setHighStreak()">Set High Streak (5)</button>
+      <button class="test-button" onclick="setEpicStreak()">Set Epic Streak (10)</button>
+      <div style="margin-top: 15px;">
+        <strong>Current Streak:</strong> <span id="streakValue">0</span>
+      </div>
+    </div>
+
+    <div class="info">
+      <strong>Expected Behavior:</strong>
+      <ul>
+        <li>Streak 0-4: Default brown background (#8f7a66)</li>
+        <li>Streak 5-9: Orange background (#f67c5f) with glow</li>
+        <li>Streak 10+: Red background (#ff3333) with stronger glow</li>
+        <li>When incrementing: Fire emoji 🔥 animation + pulse effect</li>
+      </ul>
+    </div>
+  </div>
+
+  <script src="js/bind_polyfill.js"></script>
+  <script src="js/classlist_polyfill.js"></script>
+  <script src="js/animframe_polyfill.js"></script>
+  <script src="js/html_actuator.js"></script>
+  <script>
+    // Create a simple actuator for testing
+    var actuator = new HTMLActuator();
+    var currentStreak = 0;
+    var maxStreak = 0;
+
+    function updateDisplay() {
+      actuator.updateStreak(currentStreak, maxStreak);
+      document.getElementById('streakValue').textContent = currentStreak;
+    }
+
+    function incrementStreak() {
+      currentStreak++;
+      if (currentStreak > maxStreak) {
+        maxStreak = currentStreak;
+      }
+      updateDisplay();
+    }
+
+    function resetStreak() {
+      currentStreak = 0;
+      updateDisplay();
+    }
+
+    function setHighStreak() {
+      currentStreak = 5;
+      if (currentStreak > maxStreak) {
+        maxStreak = currentStreak;
+      }
+      updateDisplay();
+    }
+
+    function setEpicStreak() {
+      currentStreak = 10;
+      if (currentStreak > maxStreak) {
+        maxStreak = currentStreak;
+      }
+      updateDisplay();
+    }
+
+    // Initialize display
+    updateDisplay();
+  </script>
+</body>
+</html>

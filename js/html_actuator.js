@@ -2,9 +2,11 @@ function HTMLActuator() {
   this.tileContainer    = document.querySelector(".tile-container");
   this.scoreContainer   = document.querySelector(".score-container");
   this.bestContainer    = document.querySelector(".best-container");
+  this.streakContainer  = document.querySelector(".streak-container");
   this.messageContainer = document.querySelector(".game-message");
 
   this.score = 0;
+  this.streak = 0;
 }
 
 HTMLActuator.prototype.actuate = function (grid, metadata) {
@@ -23,6 +25,7 @@ HTMLActuator.prototype.actuate = function (grid, metadata) {
 
     self.updateScore(metadata.score);
     self.updateBestScore(metadata.bestScore);
+    self.updateStreak(metadata.streak, metadata.maxStreak);
 
     if (metadata.terminated) {
       if (metadata.over) {
@@ -122,6 +125,38 @@ HTMLActuator.prototype.updateScore = function (score) {
 
 HTMLActuator.prototype.updateBestScore = function (bestScore) {
   this.bestContainer.textContent = bestScore;
+};
+
+HTMLActuator.prototype.updateStreak = function (streak, maxStreak) {
+  this.clearContainer(this.streakContainer);
+  
+  var streakIncreased = streak > this.streak;
+  this.streak = streak;
+  
+  this.streakContainer.textContent = streak;
+  
+  // Trigger animation when streak increases
+  if (streakIncreased && streak > 0) {
+    var streakBonus = document.createElement("div");
+    streakBonus.classList.add("streak-animation");
+    streakBonus.textContent = "🔥";
+    this.streakContainer.appendChild(streakBonus);
+    
+    // Add pulse class for animation
+    this.streakContainer.classList.add("streak-pulse");
+    var self = this;
+    setTimeout(function() {
+      self.streakContainer.classList.remove("streak-pulse");
+    }, 600);
+  }
+  
+  // Add special styling for high streaks
+  this.streakContainer.classList.remove("streak-high", "streak-epic");
+  if (streak >= 10) {
+    this.streakContainer.classList.add("streak-epic");
+  } else if (streak >= 5) {
+    this.streakContainer.classList.add("streak-high");
+  }
 };
 
 HTMLActuator.prototype.message = function (won) {
