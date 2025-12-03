@@ -18,10 +18,39 @@ Other notable contributors:
 
 Many thanks to [rayhaanj](https://github.com/rayhaanj), [Mechazawa](https://github.com/Mechazawa), [grant](https://github.com/grant), [remram44](https://github.com/remram44) and [ghoullier](https://github.com/ghoullier) for the many other good contributions.
 
-### Screenshot
+## New Features
 
+### 🔥 Streak Tracking System
+Track your consecutive successful merges! The streak counter:
+- Increases by 1 for each move where tiles merge
+- Resets to 0 when a move doesn't result in any merges
+- Shows visual feedback with animated fire emoji (🔥) on streak increase
+- Changes color based on performance:
+  - **Default (0-4):** Brown background
+  - **High Streak (5-9):** Orange background with glow effect
+  - **Epic Streak (10+):** Red background with intense glow
+- Displays pulse animation when streak increases
+- Persists across game sessions
+
+### 🎨 Color Themes
+Choose your preferred color scheme at game start! Available themes:
+- **Blue Theme:** Cool blue tones with light blue background and progressively darker blue tiles
+- **Red Theme:** Warm red tones with light red background and progressively darker red tiles  
+- **Purple Theme:** Vibrant purple tones with light purple background and progressively darker purple tiles
+
+Each theme includes:
+- Full page background color matching
+- Themed game container and grid
+- Coordinated tile colors that progress from light peach (for 2 & 4 tiles) to theme-colored darker tiles
+- Theme selection persists until "New Game" is clicked
+
+### Screenshots
+
+![alt text](image.png)
+
+#### Original
 <p align="center">
-  <img src="https://cloud.githubusercontent.com/assets/1175750/8614312/280e5dc2-26f1-11e5-9f1f-5891c3ca8b26.png" alt="Screenshot"/>
+  <img src="https://cloud.githubusercontent.com/assets/1175750/8614312/280e5dc2-26f1-11e5-9f1f-5891c3ca8b26.png" alt="Original Screenshot"/>
 </p>
 
 That screenshot is fake, by the way. I never reached 2048 :smile:
